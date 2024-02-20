@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
-import './App.css'
+// import './App.css'
 import axios from 'axios';
+import notesStore from '../Stores/NotesStore';
 
 function App() {
+  const store = notesStore();
   const [notes, setnotes] = useState(null);
   const [createForm, setcreatForm] = useState({
     title: '',
@@ -15,21 +17,16 @@ function App() {
   })
 
   useEffect(() =>{
-    fetchAllNotes();
+    store.fetchNotes();
   },[])
 
   // functions
 async function fetchAllNotes(){
-  const res = await axios.get('http://localhost:3000/notes')
-  setnotes(res.data.notes)
+
 }
 
 const updateCreateFormField =(e) =>{
-  const {name, value} = e.target;
-  setcreatForm({
-    ...createForm,
-    [name]: value,
-  })
+
 }
 
 const createNote = async (e) =>{
@@ -37,7 +34,7 @@ const createNote = async (e) =>{
   try{
   await axios.post('http://localhost:3000/notes', createForm)
   // fetching all note after creating a new one (invoke the function)
-  fetchAllNotes();
+  store.fetchNotes();
   setcreatForm({title: '', body: ''})
   } catch(err){
     console.error('error creating note:')
@@ -51,7 +48,7 @@ const handleDelete = async (_id) => {
       const response = await axios.delete(`http://localhost:3000/notes/${_id}`);
       console.log('Record Deleted', response.data);
       // Fetch all notes after deleting
-      fetchAllNotes();
+      store.fetchNotes();
     } catch (error) {
       console.error('Error deleting:', error);
       // Handle error
@@ -81,7 +78,7 @@ const updateNote = async (e) =>{
 
   return (
     <>
-    {notes && notes.map(e=>{
+    {store.notes && store.notes.map(e=>{
       return(
          <div key={e._id}>
           <h3>{e.title}</h3>
@@ -107,8 +104,8 @@ const updateNote = async (e) =>{
       <div>
       <h3>Create note</h3>
       <form onSubmit={createNote}>
-        <input type="text" name='title' value={createForm.title} onChange={updateCreateFormField} />
-        <textarea name="body" value={createForm.body} onChange={updateCreateFormField}/>
+        <input type="text" name='title' value={store.createForm.title} onChange={store.updateCreateFormField} />
+        <textarea name="body" value={store.createForm.body} onChange={store.updateCreateFormField}/>
         <button type='submit'>Submit</button>
       </form>
     </div>)
