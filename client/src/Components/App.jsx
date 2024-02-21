@@ -30,15 +30,6 @@ const updateCreateFormField =(e) =>{
 }
 
 const createNote = async (e) =>{
-  e.preventDefault();
-  try{
-  await axios.post('http://localhost:3000/notes', createForm)
-  // fetching all note after creating a new one (invoke the function)
-  store.fetchNotes();
-  setcreatForm({title: '', body: ''})
-  } catch(err){
-    console.error('error creating note:')
-  }
 }
 
 const handleDelete = async (_id) => {
@@ -103,7 +94,7 @@ const updateNote = async (e) =>{
       !updateForm._id && (
       <div>
       <h3>Create note</h3>
-      <form onSubmit={createNote}>
+      <form onSubmit={store.createNote}>
         <input type="text" name='title' value={store.createForm.title} onChange={store.updateCreateFormField} />
         <textarea name="body" value={store.createForm.body} onChange={store.updateCreateFormField}/>
         <button type='submit'>Submit</button>

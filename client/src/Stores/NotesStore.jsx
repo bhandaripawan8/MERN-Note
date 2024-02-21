@@ -25,7 +25,26 @@ const notesStore =  create((set) => ({
                 }
             }
         })
+       },
+       createNote: async(e) =>{
+            // e.preventDefault();
+            try{
+            const { createForm } = notesStore.getState();
+            await axios.post('http://localhost:3000/notes', createForm)
+            set({
+                notes: [...notes, res.data.note],
+                createForm:{
+                    title: '',
+                    body: '',
+                },
+            })
+            // fetching all note after creating a new one (invoke the function)
+            store.fetchNotes();
+            } catch(err){
+                console.error('error creating note:')
+            }
        }
+
 }))
 
 export default notesStore;
