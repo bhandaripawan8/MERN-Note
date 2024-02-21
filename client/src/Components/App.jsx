@@ -2,63 +2,20 @@ import { useState, useEffect } from 'react'
 // import './App.css'
 import axios from 'axios';
 import notesStore from '../Stores/NotesStore';
+import Notes from './Notes';
 
 function App() {
   const store = notesStore();
-  const [notes, setnotes] = useState(null);
-  const [createForm, setcreatForm] = useState({
-    title: '',
-    body: '',
-  });
-  const [updateForm, setupdateForm] = useState({
-    _id: null,
-    title: '',
-    body: '',
-  })
+ 
 
   useEffect(() =>{
     store.fetchNotes();
   },[])
 
-  // functions
-async function fetchAllNotes(){
-
-}
-
-const updateCreateFormField =(e) =>{
-
-}
-
-const createNote = async (e) =>{
-}
-
-const handleDelete = async (_id) => {
-}
-
-const handleUpdateFieldChange = (e) =>{
-}
-
-const toggleUpdate = (e) =>{
-
-}
-
-const updateNote = async (e) =>{
-
-}
-
 
   return (
     <>
-    {store.notes && store.notes.map(e=>{
-      return(
-         <div key={e._id}>
-          <h3>{e.title}</h3>
-        <p>{e.body}</p>
-        <button type='submit' onClick={() =>store.handleDelete(e._id)}>Delete Note</button>
-        <button type='submit' onClick={()=>store.toggleUpdate(e)}>Edit Note</button>
-        </div>
-      )
-   })}
+    <Notes/>
    { store.updateForm._id && (
           <div>
           <h3>Update Note</h3>
