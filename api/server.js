@@ -11,6 +11,7 @@ const Note = require('./models/note');
 app.use(express.json());
 const notesController = require('./controllers/notesController.js')
 const cors = require('cors');
+const userController = require('./controllers/UserController.js')
 // db
 connectToDb();
 app.use(cors());
@@ -20,6 +21,9 @@ app.use(cors());
 // });
 
 // Routing
+app.post('/signup', userController.signUp)
+app.post('/login', userController.login)
+app.get('/logOut', userController.logOut)
 app.get('/notes', notesController.fetchNotes)
 app.get('/notes/:id', notesController.fetchSingleNote)
 app.post('/notes', notesController.createNote)
