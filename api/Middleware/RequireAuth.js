@@ -8,8 +8,11 @@ async function requireAuth(req, res, next){
     const token = req.cookies.Authorization
     // decode the token
     const decode = jwt.verify(token, process.env.SECRET)
+    // check expiration
+    if(date.now() > decode.exp) return res.sendStatus(401);
     // find user using decoded sub
         const user = await User.findById(decode.sub)
+        if(!user) return res.sendStatus(401);
     // attach user to req
         req.user = user;
     // continue on

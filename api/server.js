@@ -16,7 +16,12 @@ const cookieParser = require('cookie-parser');
 const requireAuth = require('./Middleware/RequireAuth.js');
 // db
 connectToDb();
-app.use(cors());
+app.use(cors(
+    {
+        origin: true,
+        credentials: true
+    }
+));
 app.use(cookieParser());
 
 // app.get('/', (req, res) =>{
