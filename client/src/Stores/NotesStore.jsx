@@ -14,7 +14,7 @@ const notesStore = create((set) => ({
   },
   fetchNotes: async () => {
     try {
-      const res = await axios.get('http://localhost:3000/notes');
+      const res = await axios.get('/notes');
       set({ notes: res.data.notes });
     } catch (error) {
       console.error('Error fetching notes:', error);

@@ -1,24 +1,28 @@
-import { useState, useEffect } from 'react'
-// import './App.css'
-
-import notesStore from '../Stores/NotesStore';
-import Notes from './Notes';
-import UpdateForm from './UpdateForm';
-import CreateForm from './CreateForm';
+import Loginpage from '../Pages/Loginpage';
+import NotesPages from '../Pages/NotesPages';
+import {BrowserRouter, Routes, Route, Link} from 'react-router-dom';
 
 function App() {
-  const store = notesStore();
- 
-  useEffect(() =>{
-    store.fetchNotes();
-  },[])
 
   return (
-    <>
-    <Notes/>
-    <UpdateForm/>
-    <CreateForm/>
-    </>
+
+    <div>
+      <BrowserRouter>
+          <ul>
+            <li>
+              <Link to={'/'}>Home</Link>
+            </li>
+            <li>
+              <Link to={'/login'}>Login</Link>
+            </li>
+          </ul>
+          <Routes>
+              <Route index element={<NotesPages/>}/>
+              <Route path='/login' element={<Loginpage/>}/>
+          </Routes>
+      </BrowserRouter>
+    </div>
+
   )
 }
 export default App
